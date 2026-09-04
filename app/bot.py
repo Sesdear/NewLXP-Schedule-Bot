@@ -65,6 +65,7 @@ async def main():
     dp.include_router(start_router)
     dp.include_router(tomorrow_router)
     dp.include_router(schedule_router)
+    dp.include_router(id_router)
     
     asyncio.create_task(per_hour())
     await dp.start_polling(bot)
