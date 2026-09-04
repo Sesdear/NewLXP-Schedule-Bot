@@ -1,0 +1,24 @@
+name: Bot CI/CD
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    environment: NewLxp
+
+    steps:
+      - name: Update repository and restart bot
+        env:
+          RUN_PATH: ${{ vars.RUN_PATH }}
+        run: |
+          set -euo pipefail
+
+          cd "$RUN_PATH"
+
+          git fetch origin
+          git reset --hard origin/main
+
+          docker compose up -d --build --remove-orphans
