@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  telegram-bot:
+    build: .
+    container_name: test_newlxp_tg_bot
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - ./data:/data:Z
