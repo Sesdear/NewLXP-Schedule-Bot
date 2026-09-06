@@ -63,6 +63,11 @@ def get_schedule(token: str, date_from: str, date_to: str):
 
 
 NOVOSIBIRSK_OFFSET = timedelta(hours=7)
+EMOJIES = {
+    "location": [5778661935927004845, "📍"],
+    "people": [5920344347152224466, "👤"],
+    "calendar": [5967412305338568701, "🗓"]
+}
 
 def format_schedule_message(classes, start_date_str: str):
     try:
@@ -108,9 +113,9 @@ def format_schedule_message(classes, start_date_str: str):
             room = "Онлайн" if cls["isOnline"] else cls["classroom"]["name"]
 
             lesson = (
-                f"🕒 <b>{dt_from.strftime('%H:%M')}–{dt_to.strftime('%H:%M')}</b>\n"
+                f"<code>{dt_from.strftime('%H:%M')}–{dt_to.strftime('%H:%M')}</code>\n"
                 f"<b>{cls['discipline']['name']}</b>\n"
-                f"👤 {teacher}   📍 {room}"
+                f"<blockquote><tg-emoji emoji-id=\"{EMOJIES.get('people', [])[0]}\">{EMOJIES.get('people', [])[1]}</tg-emoji> <i>{teacher}</i>   <tg-emoji emoji-id=\"{EMOJIES.get('location', [])[0]}\">{EMOJIES.get('location', [])[1]}</tg-emoji> {room}</blockquote>"
             )
 
             if cls["isOnline"] and cls.get("meetingLink"):
@@ -121,7 +126,7 @@ def format_schedule_message(classes, start_date_str: str):
         except Exception as e:
             logging.warning(f"Ошибка обработки занятия {cls.get('id')}: {e}")
 
-    lines = ["<b>📚 Расписание на неделю</b>"]
+    lines = [f"<tg-emoji emoji-id=\"{EMOJIES.get('calendar', [])[0]}\">{EMOJIES.get('calendar', [])[1]}</tg-emoji> <b>Расписание на неделю</b>"]
 
     current_day = start_date.date()
 
@@ -130,7 +135,7 @@ def format_schedule_message(classes, start_date_str: str):
         day_key = day.isoformat()
 
         lines.append(
-            f"\n📅 <b>{weekdays[day.weekday()]} · {day.day} {months[day.month]}</b>"
+            f"\n<tg-emoji emoji-id=\"{EMOJIES.get('calendar', [])[0]}\">{EMOJIES.get('calendar', [])[1]}</tg-emoji> <b>{weekdays[day.weekday()]}, {day.day} {months[day.month]}</b>"
         )
 
         if day_key in schedule_by_day:
@@ -140,10 +145,10 @@ def format_schedule_message(classes, start_date_str: str):
                 lines.append("")
                 lines.append(lesson)
         else:
-            lines.append("\n🌙 <i>Выходной</i>")
+            lines.append("\n<i>Выходной</i>")
 
         if i != 6:
-            lines.append("\n──────────────")
+            lines.append("———————————————")
 
     return "\n".join(lines)
 
@@ -166,8 +171,7 @@ def format_schedule_day(classes, date_str: str, day_label: str):
     }
 
     lines = [
-        f"<b>📚 Расписание на {day_label}</b>",
-        f"\n📅 <b>{weekdays[target_date.weekday()]} · {target_date.day} {months[target_date.month]}</b>"
+        f"<tg-emoji emoji-id=\"{EMOJIES.get('calendar', [])[0]}\">{EMOJIES.get('calendar', [])[1]}</tg-emoji> Сегодня — <b>{weekdays[target_date.weekday()]}, {target_date.day} {months[target_date.month]}</b>"
     ]
 
     lessons = []
@@ -192,9 +196,9 @@ def format_schedule_day(classes, date_str: str, day_label: str):
             room = "Онлайн" if cls["isOnline"] else cls["classroom"]["name"]
 
             lesson = (
-                f"🕒 <b>{dt_from.strftime('%H:%M')}–{dt_to.strftime('%H:%M')}</b>\n"
+                f"<code>{dt_from.strftime('%H:%M')}–{dt_to.strftime('%H:%M')}</code>\n"
                 f"<b>{cls['discipline']['name']}</b>\n"
-                f"👤 {teacher}   📍 {room}"
+                f"<blockquote><tg-emoji emoji-id=\"{EMOJIES.get('people', [])[0]}\">{EMOJIES.get('people', [])[1]}</tg-emoji> <i>{teacher}</i>   <tg-emoji emoji-id=\"{EMOJIES.get('location', [])[0]}\">{EMOJIES.get('location', [])[1]}</tg-emoji> {room}</blockquote>"
             )
 
             if cls["isOnline"] and cls.get("meetingLink"):
