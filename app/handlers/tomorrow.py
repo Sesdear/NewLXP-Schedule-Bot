@@ -1,7 +1,7 @@
 from aiogram.types import Message
 from aiogram import Router
 from aiogram.filters import Command
-from api.schedule import *
+from api.schedule import get_schedule, format_schedule_day
 
 from database import Utils
 from datetime import datetime, timedelta
@@ -47,7 +47,7 @@ async def cmd_tomorrow(message: Message):
             await message.answer("Завтра пар нет")
             return
         
-        text = format_schedule_today_only(classes, tomorrow_str)
+        text = format_schedule_day(classes, tomorrow_str, "завтра")
         
         await message.answer(
             text,

@@ -11,10 +11,10 @@ from api.sign_in import sign_in
 from database import Utils, Newlxp, engine
 from sqlalchemy.orm import Session
 
-async def per_hour( ):
+async def per_20_minutes():
     while True:
-        await asyncio.sleep(60)
-        logging.info("Token updater start")
+        await asyncio.sleep(20 * 60)  # 20 минут
+        logging.info("Token refresh start")
         await token_refresh()
 
 async def auth():
@@ -67,7 +67,7 @@ async def main():
     dp.include_router(schedule_router)
     dp.include_router(id_router)
     
-    asyncio.create_task(per_hour())
+    asyncio.create_task(per_20_minutes())
     await dp.start_polling(bot)
 
 if __name__ == "__main__":

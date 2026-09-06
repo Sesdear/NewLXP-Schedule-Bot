@@ -148,11 +148,11 @@ def format_schedule_message(classes, start_date_str: str):
     return "\n".join(lines)
 
 
-def format_schedule_today_only(classes, today_str: str):
+def format_schedule_day(classes, date_str: str, day_label: str):
     try:
-        today = datetime.fromisoformat(today_str).date()
+        target_date = datetime.fromisoformat(date_str).date()
     except:
-        today = (datetime.utcnow() + NOVOSIBIRSK_OFFSET).date()
+        target_date = (datetime.utcnow() + NOVOSIBIRSK_OFFSET).date()
 
     weekdays = {
         0: "Понедельник", 1: "Вторник", 2: "Среда",
@@ -166,8 +166,8 @@ def format_schedule_today_only(classes, today_str: str):
     }
 
     lines = [
-        "<b>📚 Расписание на сегодня</b>",
-        f"\n📅 <b>{weekdays[today.weekday()]} · {today.day} {months[today.month]}</b>"
+        f"<b>📚 Расписание на {day_label}</b>",
+        f"\n📅 <b>{weekdays[target_date.weekday()]} · {target_date.day} {months[target_date.month]}</b>"
     ]
 
     lessons = []
@@ -175,7 +175,7 @@ def format_schedule_today_only(classes, today_str: str):
     for cls in classes:
         try:
             dt_from = datetime.fromisoformat(cls["from"].replace("Z", "+00:00")) + NOVOSIBIRSK_OFFSET
-            if dt_from.date() != today:
+            if dt_from.date() != target_date:
                 continue
 
             dt_to = datetime.fromisoformat(cls["to"].replace("Z", "+00:00")) + NOVOSIBIRSK_OFFSET
@@ -206,7 +206,7 @@ def format_schedule_today_only(classes, today_str: str):
             logging.warning(f"Ошибка обработки занятия: {e}")
 
     if not lessons:
-        lines.append("\n🌙 <i>Сегодня выходной</i>")
+        lines.append(f"\n🌙 <i>{day_label.capitalize()} выходной</i>")
         return "\n".join(lines)
 
     lessons.sort(key=lambda x: x[0])
@@ -216,3 +216,7 @@ def format_schedule_today_only(classes, today_str: str):
         lines.append(lesson)
 
     return "\n".join(lines)
+
+
+def format_schedule_today_only(classes, today_str: str):
+    return format_schedule_day(classes, today_str, "сегодня")
