@@ -1,21 +1,28 @@
 import asyncio
 import logging
 from aiogram import Bot, Dispatcher
+from aiogram.types import Message
 from aiogram.fsm.storage.memory import MemoryStorage
 import os
 
-from config import TELEGRAM_TOKEN
+from config import TELEGRAM_TOKEN, TELEGRAM_CHAT_ID
 from handlers import *
 from api.token_refresh import token_refresh
 from api.sign_in import sign_in
 from database import Utils, Newlxp, engine
 from sqlalchemy.orm import Session
+from datetime import datetime, time
 
 async def per_20_minutes():
     while True:
-        await asyncio.sleep(20 * 60)  # 20 минут
+        await asyncio.sleep(20 * 60)
         logging.info("Token refresh start")
         await token_refresh()
+async def per_1_hour(bot: Bot):
+    while True:
+        await asyncio.sleep(1 * 60)
+        logging.info("Time check start")
+        await send_schedule(bot)
 
 async def auth():
     logging.info("Start startup auth")
@@ -68,6 +75,7 @@ async def main():
     dp.include_router(id_router)
     
     asyncio.create_task(per_20_minutes())
+    asyncio.create_task(per_1_hour(bot=bot))
     await dp.start_polling(bot)
 
 if __name__ == "__main__":
