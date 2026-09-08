@@ -15,7 +15,7 @@ async def send_schedule(bot: Bot):
     
     
     
-    if time(15, 0) <= time_format < time(16, 0):
+    if time(6, 0) <= time_format < time(7, 0):
         logging.info("Start Send message for one time schedule")
         utils = Utils()
         utils.email = os.getenv("NEWLXP_EMAIL", "")

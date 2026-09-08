@@ -20,7 +20,7 @@ async def per_20_minutes():
         await token_refresh()
 async def per_1_hour(bot: Bot):
     while True:
-        await asyncio.sleep(1 * 60)
+        await asyncio.sleep(60 * 60)
         logging.info("Time check start")
         await send_schedule(bot)
 
