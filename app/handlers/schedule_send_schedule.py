@@ -10,8 +10,8 @@ import os
 import logging
 
 async def send_schedule(bot: Bot):
-    time = await get_current_time()
-    time_format = datetime.strptime(time, "%H:%M:%S.%f").time()
+    time_get = await get_current_time()
+    time_format = datetime.strptime(time_get, "%H:%M:%S.%f").time()
     
     
     
