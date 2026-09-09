@@ -11,6 +11,8 @@ import logging
 
 async def send_schedule(bot: Bot):
     time_get = await get_current_time()
+    if time_get is None:
+        return
     time_format = datetime.strptime(time_get, "%H:%M:%S.%f").time()
     
     

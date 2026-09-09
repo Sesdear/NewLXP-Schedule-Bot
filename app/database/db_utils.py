@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import select
 from sqlalchemy.exc import MultipleResultsFound
-from database import engine, Newlxp
+from database import engine, User
 from logging import error, info
 
 
@@ -13,7 +13,7 @@ class Utils:
     def get_token(self):
         with Session(engine) as session:
             result = session.execute(
-                select(Newlxp).where(Newlxp.email == self.email)
+                select(User).where(User.email == self.email)
             )
             
             try:
@@ -26,12 +26,12 @@ class Utils:
                 return None
 
             info(f"Get token")
-            return user.token
+            return user.encrypt_token
 
-    def set_token(self, user_id: str, new_token: str) -> None:
+    def set_token(self, encrypt_user_id: str, encrypt_new_token: str) -> None:
         with Session(engine) as session:
             result = session.execute(
-                select(Newlxp).where(Newlxp.email == self.email)
+                select(User).where(User.email == self.email)
             )
 
             try:
@@ -41,13 +41,13 @@ class Utils:
                 return
 
             if user:
-                user.token = new_token
+                user.encrypt_token = encrypt_new_token
                 info("Token update done")
             else:
-                user = Newlxp(
+                user = User(
                     email=self.email,
-                    user_id=user_id,
-                    token=new_token
+                    encrypt_user_id=encrypt_user_id,
+                    encrypt_token=encrypt_new_token
                 )
                 session.add(user)
                 info("New token write done")

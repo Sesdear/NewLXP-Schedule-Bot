@@ -1,0 +1,1 @@
+from exc.SALTNotConfigured import SALTNotConfigured

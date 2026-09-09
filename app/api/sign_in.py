@@ -22,7 +22,7 @@ def sign_in(email: str, password: str):
     variables = {
         "input": {
             "email": email.strip(),
-            "password": password  # пароль не логируем!
+            "password": password
         }
     }
 
