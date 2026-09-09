@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>IThub LXP Login</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo-grid">
+                <span class="square"></span>
+                <span class="square"></span>
+                <span class="square"></span>
+                <span class="square"></span>
+            </div>
+            <div class="logo-text">
+                <strong>IThub</strong><br>LXP
+            </div>
+        </div>
+
+        <div class="login-card">
+            <h2>Добро пожаловать!</h2>
+            <form id="loginForm">
+                <div class="input-group">
+                    <input type="email" id="email" placeholder="Email" required>
+                </div>
+                <div class="input-group password-group">
+                    <input type="password" id="password" placeholder="Пароль" required>
+                    <button type="button" class="toggle-password" id="togglePassword">
+                        👁️
+                    </button>
+                </div>
+                
+                <button type="submit" class="btn-primary" id="loginBtn">Войти</button>
+                
+                <a href="#" class="forgot-link">Забыли пароль?</a>
+            </form>
+        </div>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
