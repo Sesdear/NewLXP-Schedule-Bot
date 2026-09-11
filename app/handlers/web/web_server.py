@@ -28,3 +28,33 @@ async def handle_login(data: LoginRequest):
     if data.email and data.password:
         return {"success": True, "message": "Authenticated successfully"}
     return {"success": False, "message": "Invalid credentials"} 
+
+@app.get("/terms", response_class=HTMLResponse)
+async def serve_terms_page(request: Request):
+    return templates.TemplateResponse("terms.html", {"request": request})
+
+@app.post("/api/accept-terms")
+async def handle_accept_terms(data: dict):
+    # Здесь сохраняете статус согласия пользователя в БД
+    return {"success": True, "message": "Соглашение успешно принято"}
+
+@app.get("/profile", response_class=HTMLResponse)
+async def serve_profile(request: Request):
+    return templates.TemplateResponse("profile.html", {"request": request})
+
+# Add these page routes
+@app.get("/feedback", response_class=HTMLResponse)
+async def serve_feedback(request: Request):
+    return templates.TemplateResponse("feedback.html", {"request": request})
+
+# API for feedback submission
+class FeedbackModel(BaseModel):
+    type: str
+    text: str
+    is_anonymous: bool
+    initData: str = None
+
+@app.post("/api/feedback")
+async def handle_feedback(data: FeedbackModel):
+    # Save feedback to DB or forward to Telegram admin
+    return {"success": True}

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Обратная связь</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="../static/style.css">
+</head>
+<body class="app-body">
+    <div class="screen-container">
+        <!-- Title & Subtitle -->
+        <div class="page-title-block">
+            <div class="title-icon">💬</div>
+            <div>
+                <h1>Предложения и отзывы</h1>
+                <p class="subtitle">Ваше мнение может быть поможет развивать бота</p>
+            </div>
+        </div>
+
+        <form id="feedbackForm">
+            <!-- Category Chips -->
+            <div class="form-group">
+                <label class="form-label">ТИП ОБРАЩЕНИЯ</label>
+                <div class="chips-group">
+                    <button type="button" class="chip active" data-type="idea">+ Идея</button>
+                    <button type="button" class="chip" data-type="bug">Ошибка</button>
+                    <button type="button" class="chip" data-type="other">Другое</button>
+                </div>
+            </div>
+
+            <!-- Message Input -->
+            <div class="form-group">
+                <label class="form-label">СООБЩЕНИЕ</label>
+                <textarea 
+                    id="feedbackText" 
+                    rows="6" 
+                    placeholder="Опишите ваше предложение или проблему подробно. Мы наверное (скорее нет, чем да) рассмотрим ваше обращение и постараемся сделать бота лучше..."
+                    required
+                ></textarea>
+            </div>
+
+            <!-- Anonymous Switch -->
+            <div class="toggle-card">
+                <div class="toggle-info">
+                    <strong>Анонимный отзыв</strong>
+                    <span>Не показывать мое имя в системе бота</span>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" id="anonymousToggle">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <button type="submit" class="btn-primary space-top">Отправить предложение</button>
+        </form>
+    </div>
+
+    <!-- Bottom Navigation Bar -->
+    <nav class="bottom-nav">
+        <a href="../templates/profile.html" class="nav-item">
+            <span class="nav-icon">👤</span>
+            <span>ПРОФИЛЬ</span>
+        </a>
+        <a href="../templates/feedback.html" class="nav-item active">
+            <span class="nav-icon">💬</span>
+            <span>ОТЗЫВЫ</span>
+        </a>
+    </nav>
+
+    <script>
+        const tg = window.Telegram?.WebApp;
+        if (tg) tg.expand();
+
+        // Chip selector logic
+        const chips = document.querySelectorAll('.chip');
+        let selectedType = 'idea';
+
+        chips.forEach(chip => {
+            chip.addEventListener('click', () => {
+                chips.forEach(c => c.classList.remove('active'));
+                chip.classList.add('active');
+                selectedType = chip.dataset.type;
+            });
+        });
+
+        // Form Submit
+        document.getElementById('feedbackForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const payload = {
+                type: selectedType,
+                text: document.getElementById('feedbackText').value,
+                is_anonymous: document.getElementById('anonymousToggle').checked,
+                initData: tg?.initData
+            };
+
+            const res = await fetch('/api/feedback', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(payload)
+            });
+
+            if (res.ok) {
+                tg?.showAlert('Спасибо за отзыв!');
+                document.getElementById('feedbackText').value = '';
+            }
+        });
+    </script>
+</body>
+</html>

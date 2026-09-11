@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Пользовательское соглашение</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="../static/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Logo Header -->
+        <div class="header">
+            <div class="logo-grid">
+                <span class="square"></span>
+                <span class="square"></span>
+                <span class="square"></span>
+                <span class="square"></span>
+            </div>
+            <div class="logo-text">
+                <strong>IThub</strong><br>LXP
+            </div>
+        </div>
+
+        <!-- Terms Card -->
+        <div class="login-card">
+            <h2>Соглашение</h2>
+            
+            <!-- Блок с текстом соглашения -->
+            <div class="terms-box">
+                <p><strong>1. Общие положения</strong></p>
+                <p>Здесь будет ваш текст пользовательского соглашения. Текст автоматически прокручивается внутри этого блока.</p>
+                <p><strong>2. Обработка данных</strong></p>
+                <p>Дополнительный текст условий использования сервиса и согласия на обработку данных...</p>
+            </div>
+
+            <form id="termsForm">
+                <label class="checkbox-container">
+                    <input type="checkbox" id="acceptCheckbox">
+                    <span class="checkmark"></span>
+                    <span class="checkbox-text">Я согласен с пользовательским соглашением</span>
+                </label>
+                
+                <button type="submit" class="btn-primary" id="submitBtn" disabled>Продолжить</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="../static/terms.js"></script>
+</body>
+</html>
