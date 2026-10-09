@@ -171,7 +171,7 @@ def format_schedule_day(classes, date_str: str, day_label: str):
     }
 
     lines = [
-        f"<tg-emoji emoji-id=\"{EMOJIES.get('calendar', [])[0]}\">{EMOJIES.get('calendar', [])[1]}</tg-emoji> Сегодня — <b>{weekdays[target_date.weekday()]}, {target_date.day} {months[target_date.month]}</b>"
+        f"<tg-emoji emoji-id=\"{EMOJIES.get('calendar', [])[0]}\">{EMOJIES.get('calendar', [])[1]}</tg-emoji> {day_label} — <b>{weekdays[target_date.weekday()]}, {target_date.day} {months[target_date.month]}</b>"
     ]
 
     lessons = []
