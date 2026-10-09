@@ -223,4 +223,4 @@ def format_schedule_day(classes, date_str: str, day_label: str):
 
 
 def format_schedule_today_only(classes, today_str: str):
-    return format_schedule_day(classes, today_str, "сегодня")
+    return format_schedule_day(classes, today_str, "Сегодня")
