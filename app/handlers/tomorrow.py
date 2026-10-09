@@ -47,7 +47,7 @@ async def cmd_tomorrow(message: Message):
             await message.answer("Завтра пар нет")
             return
         
-        text = format_schedule_day(classes, tomorrow_str, "завтра")
+        text = format_schedule_day(classes, tomorrow_str, "Завтра")
         
         await message.answer(
             text,
